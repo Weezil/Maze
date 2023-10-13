@@ -7,24 +7,36 @@ public class Player : MonoBehaviour
     public float Speed;
     public int Lives;
     public float Boost;
+    public BoxCollider2D BoxTrigger;
+    public int Points;
     // Start is called before the first frame update
     void Start()
     {
         Boost = 1;
         Speed = 5;
         Lives = 3;
+        Points = 0;
+
+        BoxTrigger = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
+        BoxTrigger.isTrigger = true;
+        BoxTrigger.autoTiling = true;
+        
+    }
+    void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        Points += 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Boost >= Speed)
+        if (Boost > 0)
         {
-            Speed = Boost;
+            Speed = Boost + 2;
         }
         else 
-        { 
-            Speed = Boost + 1;
+        {
+            Speed = 1;
         }
         if (Input.GetKey(KeyCode.W))
         {

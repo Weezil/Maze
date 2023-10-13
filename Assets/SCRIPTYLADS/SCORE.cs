@@ -13,10 +13,10 @@ public class SCORE : MonoBehaviour
     int score = 0;
     int lives = 0;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    //private void Awake()
+    //{
+    //    Instance = this;
+    //}
 
     // Start is called before the first frame update
     void Start()
@@ -25,9 +25,9 @@ public class SCORE : MonoBehaviour
         livesText.text = "LIVES: " + lives.ToString();
     }
 
-    public void Awake()
-    {
-        score += 1;
-        scoreText.text = "POINTS: " + score.ToString();
-    }
+    //public void Awake()
+    //{
+    //    score += 1;
+    //    scoreText.text = "POINTS: " + score.ToString();
+    //}
 }
