@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -24,7 +25,16 @@ public class Player : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collider2D)
     {
-        Points += 1;
+        if (collider2D.GetComponent<BoxCollider2D>().name == "Gem")
+        {
+            Points += 1;
+            Object.Destroy(collider2D.gameObject);
+        }
+        else
+        {
+            Lives -= 1;
+            Object.Destroy(collider2D.gameObject);
+        }
     }
 
     // Update is called once per frame
