@@ -49,5 +49,7 @@ public class Player : MonoBehaviour
             Application.Quit();
             //Quit wont work in the editor, but its still a nice touch :p
         }
+
+
     }
 }
