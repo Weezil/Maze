@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Player : MonoBehaviour
     public float Boost;
    // public BoxCollider2D BoxTrigger;
     public int Points;
+    public Text scoreText;
+    public Text lifeText;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +20,13 @@ public class Player : MonoBehaviour
         Lives = 3;
         Points = 0;
 
+        scoreText.text = "Gem: " + AddPoint.totalScore;
+        lifeText.text = "Lives: " + Remove.totalLives;
+
         //BoxTrigger = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
-       // BoxTrigger.isTrigger = true;
+        // BoxTrigger.isTrigger = true;
         //BoxTrigger.autoTiling = true;
-        
+
     }
     void OnTriggerEnter2D(Collider2D collider2D)
     {
@@ -30,6 +36,9 @@ public class Player : MonoBehaviour
             Speed = 5;
             Boost = 1;
             Object.Destroy(collider2D.gameObject);
+           
+            AddPoint.totalScore += 1;
+            scoreText.text = "Gem: " + AddPoint.totalScore;
         }
         else if (collider2D.GetComponent<BoxCollider2D>().name == "Bomb")
         {
@@ -37,6 +46,9 @@ public class Player : MonoBehaviour
             Boost = 1;
             Lives -= 1;
             Object.Destroy(collider2D.gameObject);
+
+            Remove.totalLives -= 1;
+            lifeText.text = "Lives: " + Remove.totalLives;
         }
         else if (collider2D.GetComponent<BoxCollider2D>().name == "Mud")
         {
