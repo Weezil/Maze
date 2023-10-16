@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public float Speed;
     public int Lives;
     public float Boost;
-    public BoxCollider2D BoxTrigger;
+   // public BoxCollider2D BoxTrigger;
     public int Points;
     // Start is called before the first frame update
     void Start()
@@ -17,14 +17,45 @@ public class Player : MonoBehaviour
         Lives = 3;
         Points = 0;
 
-        BoxTrigger = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
-        BoxTrigger.isTrigger = true;
-        BoxTrigger.autoTiling = true;
+        //BoxTrigger = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
+       // BoxTrigger.isTrigger = true;
+        //BoxTrigger.autoTiling = true;
         
     }
     void OnTriggerEnter2D(Collider2D collider2D)
     {
-        Points += 1;
+        if (collider2D.GetComponent<BoxCollider2D>().name == "Gem")
+        {
+            Points += 1;
+            Object.Destroy(collider2D.gameObject);
+        }
+        else if (collider2D.GetComponent<BoxCollider2D>().name == "Bomb")
+        {
+            Lives -= 1;
+            Object.Destroy(collider2D.gameObject);
+        }
+        else if (collider2D.GetComponent<BoxCollider2D>().name == "Mud")
+        {
+            Boost = 0;
+        }
+        else if (collider2D.GetComponent<BoxCollider2D>().name == "Boost")
+        {
+            Boost = 1;
+        }
+        else if (collider2D.GetComponent<BoxCollider2D>().name == "Mud")
+        {
+            Speed = 3;
+        }
+        else if (collider2D.GetComponent<BoxCollider2D>().name != "Mud" || collider2D.GetComponent<BoxCollider2D>().name != "Boost")
+        {
+            Speed = 5;
+            Boost = 0;
+        }
+        else
+        {
+            Debug.Log("N Collide");
+        }
+
     }
 
     // Update is called once per frame
