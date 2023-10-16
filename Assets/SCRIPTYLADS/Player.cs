@@ -27,10 +27,14 @@ public class Player : MonoBehaviour
         if (collider2D.GetComponent<BoxCollider2D>().name == "Gem")
         {
             Points += 1;
+            Speed = 5;
+            Boost = 1;
             Object.Destroy(collider2D.gameObject);
         }
         else if (collider2D.GetComponent<BoxCollider2D>().name == "Bomb")
         {
+            Speed = 5;
+            Boost = 1;
             Lives -= 1;
             Object.Destroy(collider2D.gameObject);
         }
@@ -38,22 +42,22 @@ public class Player : MonoBehaviour
         {
             Boost = 0;
         }
-        else if (collider2D.GetComponent<BoxCollider2D>().name == "Boost")
-        {
-            Boost = 1;
-        }
-        else if (collider2D.GetComponent<BoxCollider2D>().name == "Mud")
-        {
-            Speed = 3;
-        }
-        else if (collider2D.GetComponent<BoxCollider2D>().name != "Mud" || collider2D.GetComponent<BoxCollider2D>().name != "Boost")
-        {
-            Speed = 5;
-            Boost = 0;
-        }
         else
         {
             Debug.Log("N Collide");
+        }
+        if (collider2D.GetComponent<BoxCollider2D>().name == "Mud" || collider2D.GetComponent<BoxCollider2D>().name == "Boost")
+        {
+            if (collider2D.GetComponent<BoxCollider2D>().name == "Mud")
+            {
+                Speed = 3;
+                Boost = 0;
+            }
+            else
+            {
+                Speed = 5;
+                Boost = 2;
+            }
         }
 
     }
