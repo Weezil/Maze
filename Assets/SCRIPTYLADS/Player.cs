@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public int Points;
     public Text scoreText;
     public Text lifeText;
+    public Text timeText;
+    float Remaining = 100;
 
     public List<GameObject> GemList = new List<GameObject>();
     // Start is called before the first frame update
@@ -78,6 +80,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Remaining = Remaining - Time.deltaTime;
+        timeText.text = "Time: " + Remaining;
+
         Points = GemList.Count;
         if (Boost > 0)
         {
