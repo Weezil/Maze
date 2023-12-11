@@ -8,10 +8,11 @@ public class Player : MonoBehaviour
     public float Speed;
     public int Lives;
     public float Boost;
-   // public BoxCollider2D BoxTrigger;
     public int Points;
     public Text scoreText;
     public Text lifeText;
+
+    public List<GameObject> GemList = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -32,18 +33,14 @@ public class Player : MonoBehaviour
     {
         if (collider2D.GetComponent<BoxCollider2D>().name == "Gem")
         {
-            Points += 1;
-            Speed = 5;
-            Boost = 1;
-            Object.Destroy(collider2D.gameObject);
+            GemList.Add(collider2D.gameObject);
+            collider2D.gameObject.transform.position = new Vector2(-35, -5.5f);
            
             AddPoint.totalScore += 1;
             scoreText.text = "Gem: " + AddPoint.totalScore;
         }
         else if (collider2D.GetComponent<BoxCollider2D>().name == "Bomb")
         {
-            Speed = 5;
-            Boost = 1;
             Lives -= 1;
             Object.Destroy(collider2D.gameObject);
 
@@ -54,29 +51,34 @@ public class Player : MonoBehaviour
         {
             Boost = 0;
         }
+        else if (collider2D.GetComponent<BoxCollider2D>().name == "Boost")
+        {
+            Boost = 2f;
+        }
         else
         {
             Debug.Log("N Collide");
         }
-        if (collider2D.GetComponent<BoxCollider2D>().name == "Mud" || collider2D.GetComponent<BoxCollider2D>().name == "Boost")
-        {
-            if (collider2D.GetComponent<BoxCollider2D>().name == "Mud")
-            {
-                Speed = 3;
-                Boost = 0;
-            }
-            else
-            {
-                Speed = 5;
-                Boost = 2;
-            }
-        }
+        
 
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.GetComponent<BoxCollider2D>().name == "Mud")
+        {
+            Boost = 1;
+            Speed = 5;
+        }
+        if (collision.GetComponent<BoxCollider2D>().name == "Boost")
+        {
+            Boost = 1;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Points = GemList.Count;
         if (Boost > 0)
         {
             Speed = Boost + 2;
