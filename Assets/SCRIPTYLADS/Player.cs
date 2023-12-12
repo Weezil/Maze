@@ -12,7 +12,12 @@ public class Player : MonoBehaviour
     public Text scoreText;
     public Text lifeText;
     public Text timeText;
-    float Remaining = 100;
+    float Remaining = 170;
+
+    bool GameOver = false;
+
+    public EndPopUp endpopup;
+    public GameObject GameOverQween;
 
     public List<GameObject> GemList = new List<GameObject>();
     // Start is called before the first frame update
@@ -62,6 +67,10 @@ public class Player : MonoBehaviour
             Debug.Log("N Collide");
         }
         
+        if (collider2D.gameObject == GameOverQween)
+        {
+            EndGame();
+        }
 
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -80,6 +89,21 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (GameOver)
+            return;
+
+        Remaining = Mathf.Max(0, Remaining - Time.deltaTime);
+        timeText.text = "Time: " + Mathf.CeilToInt(Remaining);
+
+        if (Remaining <= 0)
+        {
+            EndGame();
+            return;
+        }
+
+        
+
         Remaining = Remaining - Time.deltaTime;
         timeText.text = "Time: " + Remaining;
 
@@ -108,14 +132,19 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector2(transform.position.x + Speed * Time.deltaTime * -1, transform.position.y);
         }
+
         
         if (Lives == 0)
         {
-            Debug.Log("haha stinky loser");
-            Application.Quit();
-            //Quit wont work in the editor, but its still a nice touch :p
+            EndGame();
         }
+    }
+    void EndGame()
+    {
+        Debug.Log("Game Over Stinky");
+        GameOver = true;
 
-
+        endpopup.ShowEndPanel(GemList.Count, 170f, AddPoint.totalScore, Remaining);
     }
 }
+
